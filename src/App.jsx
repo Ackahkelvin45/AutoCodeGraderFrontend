@@ -28,7 +28,7 @@ import ChangePasswordLecturer from './pages/profile/teacher/changePasswordLectur
 
 function App() {
   return (
-    <div   className="page-wrapper">
+    <div   className="page-wrapper" style={{overflowX:"hidden"}}>
     <Routes>
       <Route path='/' element={<LandingPage/>} />
       <Route path='/auth/register/student' element={<RegisterStudent/>} /> 

@@ -8,10 +8,13 @@ import { CarouselItem } from '../components/landingpage/carousel'
 function LandingPage() {
 
   return (
-    <>
+    <div className=''>
     
      <Navbar/>
+    
      <Hero/>
+  
+    
     
  <CarouselItem/> 
      <Features/>
@@ -21,7 +24,7 @@ function LandingPage() {
      <Footer />
      <PageSpinner/>
      
-    </>
+    </div>
   )
 }
 

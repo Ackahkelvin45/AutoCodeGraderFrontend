@@ -637,6 +637,10 @@ progress {
     margin-right: auto;
     margin-left: auto
 }
+.container2{
+    padding-right: var(--bs-gutter-x, 0.75rem);
+    padding-left: var(--bs-gutter-x, 0.75rem);
+}
 
 @media(min-width: 500px) {
     .container-sm, .container {
@@ -4336,6 +4340,7 @@ textarea.form-control-lg {
     justify-content: space-between;
     padding-top: 1rem;
     padding-bottom: 1rem
+    
 }
 
 .navbar>.container, .navbar>.container-fluid, .navbar>.container-sm, .navbar>.container-md, .navbar>.container-lg, .navbar>.container-xl, .navbar>.container-xxl {
@@ -19437,4 +19442,26 @@ span:has(> .main-picture) {
     margin-left: auto
 }
 
+
+.testing{
+    margin-left: -20px;
+}
+.analysis{
+    margin-left: -20px;
+}
+
+@media (max-width:768px) {
+    
+    .testing{
+        margin-left:0;
+    }
+    .missing{
+        display:none;
+        
+    }
+
+    .analysis{
+        margin-left: 0px;
+    }
+}
 

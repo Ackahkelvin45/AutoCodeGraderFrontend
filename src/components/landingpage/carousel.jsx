@@ -76,7 +76,7 @@ const CarouselItem=()=>{
 
    
   return (
-    <section  className="slider-container px-1 " style={{marginBottom:"50px",marginTop:"100px"}}>
+    <section  className="container content-overlay mt-4 mb-2 mt-lg-5 mb-lg-4 pt-5 pb-md-2" style={{marginBottom:"50px",marginTop:"100px"}}>
    
 
    

@@ -2,10 +2,12 @@
 import logo from "../../assets/newlogo.png"
 function Footer() {
   return (
-    <footer className="footer bg-secondary pt-5 px-4 ">
-      <div className="container pt-lg-4 pb-4">
+<div className=" bg-secondary ">
+    <footer className="footer bg-secondary pt-5  container content-overlay mt-4 mb-2 mt-lg-5 mb-lg-4 pt-5 pb-md-2  ">
+    
+      <div className="container pb-2">
         
-        <div className="row mb-5 pb-md-3 pb-lg-4">
+        <div className="row align-items-center pb-4">
           <div className="col-lg-6 mb-lg-0 mb-4">
             <div className="d-flex flex-sm-row flex-column justify-content-between mx-n2">
               <div className="mb-sm-0 mb-4 px-2"><a className="d-inline-block mb-4" href="real-estate-home-v1.html"><img src={logo} width="116" alt="logo"/></a>
@@ -71,7 +73,9 @@ function Footer() {
        
         <div className="text-center fs-sm pt-4 mt-3 pb-2">©  Auto Code Grader 20234. All rights reserved</div>
       </div>
+     
     </footer>
+    </div>
   )
 }
 

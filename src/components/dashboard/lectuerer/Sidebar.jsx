@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import logo from "../../../assets/newlogo.png";
 import { Link, useLocation } from 'react-router-dom';
+import { Collapse } from 'react-bootstrap';
 
 const SideBar = ({ toggleSidebar, toggleSidebarHandler }) => {
     const [createAssignmentActive, setCreateAssignmentActive] = useState(false);
     const [dashboardActive, setDashboardActive] = useState(false);
     const [viewAssignmentsActive, setViewAssignmentsActive] = useState(false);
     const [viewClassActive, setViewClassActive] = useState(false);
+    const [viewReport, setViewReport] = useState(false);
+
     const [toggleBar, setToggleBar] = useState(false);
+   
 
     const handleToggleBar = () => {
         setToggleBar(prev => !prev);
@@ -49,6 +53,8 @@ const SideBar = ({ toggleSidebar, toggleSidebarHandler }) => {
         setCreateAssignmentActive(pathname === "/lecturer/create/assignment");
         setViewAssignmentsActive(pathname === "/lecturer/view/assignments");
         setViewClassActive(pathname === "/lecturer/view/className");
+        setViewReport(pathname === "/lecturer/report"||pathname === "/lecturer/report/class");
+        
     }, [pathname]);
 
     return (
@@ -77,7 +83,10 @@ const SideBar = ({ toggleSidebar, toggleSidebarHandler }) => {
                                             <Link to="/lecturer/dashboard" className={`nav-link fs-sm ${dashboardActive ? "active" : ""}`}><i className="fi fi-grid mb-1 mx-2"></i><span>{toggleBar ? "" : "Dashboard"}</span></Link>
                                             <Link to='/lecturer/create/assignment' className={`nav-link fs-sm ${createAssignmentActive ? "active" : ""}`}><i className="fi fi-folder-plus mx-2 mb-1"></i><span>{toggleBar ? "" : "Create assignment "}</span></Link>
                                             <Link to="/lecturer/view/assignments" className={`nav-link fs-sm ${viewAssignmentsActive ? "active" : ""}`}><i className="fi fi-folder mb-1 mx-2"></i><span>{toggleBar ? "" : "View Assignments"}</span></Link>
-                                            <Link to='' className={`nav-link fs-sm ${viewClassActive ? "active" : ""}`}><i className="fi fi-footer mb-1 mx-2"></i><span>{toggleBar ? "" : "Class "}</span></Link>
+
+                                            <Link to="/lecturer/report" className={`nav-link fs-sm ${viewReport ? "active" : ""}`}><i className="fi fi-pie-chart mb-1 mx-2"></i><span>{toggleBar ? "" : "Report"}</span></Link>
+
+                                           
                                         </nav>
                                         <hr className="text-light opacity-15 mx-n4 mt-4" />
                                     </div>

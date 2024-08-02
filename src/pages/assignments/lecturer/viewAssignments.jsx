@@ -50,8 +50,10 @@ function ViewAssignments() {
           <div className=" col-md-6 d-flex align-items-center flex-shrink-0">
                 <label className="fs-sm me-2 pe-1 text-nowrap" ><i className="fi-arrows-sort text-muted mt-n1 me-2"></i>Sort by:</label>
                 <select className="form-select form-select-sm" id="sortby">
-                  <option>Newest</option>
-                  <option>Old</option>
+                  <option>All</option>
+                  <option>Completed</option>
+                  <option>Not Completed</option>
+
                   
                 </select>
               </div>

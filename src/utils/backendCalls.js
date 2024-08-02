@@ -53,28 +53,35 @@ catch(err) {
   
 }
 
-const putTOBackend = async (apiEndpoint, token="") => {
-  /** 
-   * postToBackend: uses fetch to post data to backedn
-   */
-  let url = backend.url + apiEndpoint
-// Default options are marked with *
-try {
-  const response = await fetch(url, {
-    headers: {
-      "Authorization": "Bearer " + token
-    }
-  });
-  return {data: await response.json(), status: response.status}
-}
-catch(err) {
-  console.log(err)
-  
-  return {data: {"reason": "Network Error check ur internet"}, status: "errr"}
-}
-   // parses JSON response into native JavaScript objects
-  
-}
+
+
+const putTOBackend = async (apiEndpoint, data, token="") => {
+
+  let url = backend.url + apiEndpoint;
+
+  try {
+    const response = await fetch(url, {
+      method: "PUT", 
+      mode: "cors", 
+      cache: "no-cache",
+      credentials: "same-origin", 
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
+    });
+
+    return {data: await response.json(), status: response.status};
+  } catch (err) {
+    console.log(err);
+    return {data: {"reason": "Network Error, check your internet"}, status: "error"};
+  }
+};
+
 
 
 const deleteBackend = async (apiEndpoint, token="") => {

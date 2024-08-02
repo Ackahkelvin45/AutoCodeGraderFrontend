@@ -5,10 +5,10 @@ import image4 from "../../assets/img/hero/lady.jpg"
 
 const  Hero=()=> {
   return (
-    <section className="container content-overlay mt-4 mb-2 mt-lg-5 mb-lg-4 pt-5 pb-md-2">
+    <section  className="position-relative overflow-hidden py-5 mb-5 justify-content-center d-flex px-3">
     <div className="d-none d-xl-block position-absolute top-0 start-0 h-100 bg-secondary" style={{width: "67%", borderBottomRightRadius: ".75rem"}}></div>
     <div className="d-xl-none position-absolute top-0 start-0 w-100 h-100 bg-secondary"></div>
-    <div className="container content-overlay mt-4 mb-2 mt-lg-5 mb-lg-4 pt-5 pb-md-2">
+    <div className="container content-overlay mt-4 mb-2 mt-lg-5 mb-lg-4 pt-5 pb-md-2 ">
     <div>
 
     </div>

@@ -67,10 +67,25 @@ function AssignmentCard({assignment}) {
                                 <li>
                                     <Link to={`/lecturer/view/${assignment.id}`} type="button" className="dropdown-item">
                                         <i className="fi-eye-on opacity-60 me-2"></i>
-                                        View
+                                        View details
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={`/lecturer/${assignment.id}/submission`} type="button" className="dropdown-item">
+                                        <i className="fi-eye-on opacity-60 me-2"></i>
+                                        View report
+                                    </Link>
+                                </li>
+                                <li>
+                                <Link to={`/lecturer/${assignment.id}/report`} type="button" className="dropdown-item">
+                                        <i className="fi-list opacity-60 me-2"></i>
+                                        View submissions
                                     </Link>
                                 </li>
 
+                                
+
+                                
                                 <li>
                                     <Link to='/intoduction-to-python/chat' type="button" className="dropdown-item">
                                         <i className="fi-chat-circle opacity-60 me-2"></i>
@@ -78,9 +93,9 @@ function AssignmentCard({assignment}) {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to='/lecturer/edit/assignments' type="button" className="dropdown-item">
+                                    <Link to={`/lecturer/edit/assignment/${assignment.id}`} type="button" className="dropdown-item">
                                         <i className="fi-pencil opacity-60 me-2"></i>
-                                        Edit assignment detail
+                                        Edit assignment
                                     </Link>
                                 </li>
                                 
@@ -96,11 +111,11 @@ function AssignmentCard({assignment}) {
                     <h3 className="h6 card-title pt-1 mb-1">
                         <a href="#" className="text-nav stretched-link text-decoration-none">{assignment.title}</a>
                     </h3>
-                    <div className="fs-base">Structured Programming</div>
+                <div className="fs-base">{assignment.Course.courseName}</div>
                     <div className="fs-sm">
                         <span className="text-nowrap me-3">
                             <i className="fi-code text-muted me-1"></i>
-                            Python
+                            {assignment.Compiler.name}
                         </span>
                         
                     </div>

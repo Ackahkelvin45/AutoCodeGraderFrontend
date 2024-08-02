@@ -25,6 +25,13 @@ import ProfileDetailPage from './pages/profile/student/profileDetailPage'
 import ChangePassword from './pages/profile/student/changePassword'
 import ProfileDetailPageLecturer from './pages/profile/teacher/profileDetailLecturer'
 import ChangePasswordLecturer from './pages/profile/teacher/changePasswordLecturer'
+import EditAssignment from './pages/assignments/lecturer/editAssignment'
+import ViewStudentSubmmissionPage from './pages/assignments/lecturer/viewStudentSubmission'
+import Index from './pages/report'
+import ClassReport from './pages/report/classreport/report'
+import AssignmentReport from './pages/report/assignmentreport/report'
+import StudentReport from './pages/report/studentreport/report'
+import StudentReportDetail from './pages/report/studentreport/studentReportDetails'
 
 function App() {
   return (
@@ -44,6 +51,16 @@ function App() {
       <Route path='/student/dashboard' element = { <StudentDashboard />} />
       <Route path='/lecturer/dashboard' element = { <LecturerDashboard />} />
       <Route path='/lecturer/create/assignment' element = { <CreateAssignment/>} />
+      <Route path='/lecturer/edit/assignment/:id' element = { <EditAssignment/>} />
+      <Route path='/lecturer/:id/submission' element = { <ViewStudentSubmmissionPage/>} />
+      <Route path='/lecturer/report' element = { <Index/>} />
+      <Route path='/lecturer/report/class' element = { <ClassReport/>} />
+      <Route path='/lecturer/:id/report' element = { <AssignmentReport/>} />
+      <Route path='/lecturer/student/report' element = { <StudentReport/>} />
+      <Route path='/lecturer/student-detail/:id/report' element = { <StudentReportDetail/>} />
+
+
+
       <Route path='/:id/chat' element = {<ChatPage/>} />
 
 

@@ -32,6 +32,7 @@ import ClassReport from './pages/report/classreport/report'
 import AssignmentReport from './pages/report/assignmentreport/report'
 import StudentReport from './pages/report/studentreport/report'
 import StudentReportDetail from './pages/report/studentreport/studentReportDetails'
+import ViewAssignmentsStudents from './pages/assignments/students/viewassignmentsstudents'
 
 function App() {
   return (
@@ -49,6 +50,8 @@ function App() {
 
 
       <Route path='/student/dashboard' element = { <StudentDashboard />} />
+      <Route path='/student/view/assignments' element = { <ViewAssignmentsStudents/>} />
+
       <Route path='/lecturer/dashboard' element = { <LecturerDashboard />} />
       <Route path='/lecturer/create/assignment' element = { <CreateAssignment/>} />
       <Route path='/lecturer/edit/assignment/:id' element = { <EditAssignment/>} />

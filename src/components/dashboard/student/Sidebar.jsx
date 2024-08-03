@@ -4,7 +4,7 @@ import logo from "../../../assets/newlogo.png";
 import { Link, useLocation } from 'react-router-dom';
 
 const SideBar = ({ toggleSidebar, toggleSidebarHandler }) => {
-    const [createAssignmentActive, setCreateAssignmentActive] = useState(false);
+    const [gradeActive, setGradeActive] = useState(false);
     const [dashboardActive, setDashboardActive] = useState(false);
     const [viewAssignmentsActive, setViewAssignmentsActive] = useState(false);
     const [viewClassActive, setViewClassActive] = useState(false);
@@ -48,9 +48,9 @@ const SideBar = ({ toggleSidebar, toggleSidebarHandler }) => {
     const { pathname } = location;
 
     useEffect(() => {
-        setDashboardActive(pathname === "/lecturer/dashboard");
-        setCreateAssignmentActive(pathname === "/lecturer/create/assignment");
-        setViewAssignmentsActive(pathname === "/lecturer/view/assignments");
+        setDashboardActive(pathname === "/student/dashboard");
+        setGradeActive(pathname === "/student/grades");
+        setViewAssignmentsActive(pathname === "/student/view/assignments");
         setViewClassActive(pathname === "/lecturer/view/className");
     }, [pathname]);
 
@@ -78,6 +78,10 @@ const SideBar = ({ toggleSidebar, toggleSidebarHandler }) => {
                                     <div className="simplebar-content" style={{ padding: '8px 24px 24px' }}>
                                         <nav className="nav-light flex-column">
                                             <Link to="/student/dashboard" className={`nav-link fs-sm ${dashboardActive ? "active" : ""}`}><i className="fi fi-grid mb-1 me-2"></i><span>{toggleBar ? "" : "Dashboard"}</span></Link>
+                                            <Link to="/student/view/assignments" className={`nav-link fs-sm ${viewAssignmentsActive ? "active" : ""}`}><i className="fi  fi-folders  mb-1 me-2"></i><span>{toggleBar ? "" : "Assignments"}</span></Link>
+                                            <Link to="/student/grades" className={`nav-link fs-sm ${gradeActive ? "active" : ""}`}><i className="fi fi-award mb-1 me-2"></i><span>{toggleBar ? "" : "Grades"}</span></Link>
+
+
 
                                         </nav>
                                         <hr className="text-light opacity-15 mx-n4 mt-4" />

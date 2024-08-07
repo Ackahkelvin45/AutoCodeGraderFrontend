@@ -1,6 +1,7 @@
 import {useEffect,useState} from 'react'
 import logo from "../../assets/newlogo.png"
 import { Link } from 'react-router-dom';
+
 function Navbar() {
     const [hasScrolled,setHasScrolled]=useState(false)
 
@@ -26,7 +27,7 @@ function Navbar() {
   return (
     
     <header className={`navbar   navbar-expand-md navbar-light fixed-top justify-content-center ${hasScrolled?"navbar-stuck":""} `}>
-       <div className="container" style={{marginLeft:"auto",marginRight:"auto"}}>
+       <div className="container px-3" style={{marginLeft:"auto",marginRight:"auto"}}>
        <a className="navbar-brand me-2 me-xl-4" href="real-estate-home-v1.html"><img className="d-block" src={logo} width="116" alt="logo"/></a>
           <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span></button>

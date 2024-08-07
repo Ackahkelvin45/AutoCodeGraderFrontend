@@ -1,33 +1,77 @@
-import { NavandSidebar } from '../../../components/dashboard/lectuerer/navBarAndSideBar';
+import React, { useState, useRef, useContext } from "react";
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-import { useState, useRef } from "react";
 import { Collapse } from 'reactstrap';
+import { postToBackend } from "../../../utils/backendCalls";
+import { getToken } from "../../../utils/localstorage";
+import { convertBase64, token } from "../../../utils/config";
+import { Avatar } from "@files-ui/react"
+import { LecturerContext } from "../../../context/lecturerContext";
+import { NavandSidebar } from "../../../components/dashboard/lectuerer/navBarAndSideBar";
+
 
 registerPlugin(FilePondPluginImagePreview);
 
-function ProfileDetailPageLecturer() {
+function ProfileDetailPage() {
   const [files, setFiles] = useState([]);
   const startRef = useRef();
   const endRef = useRef();
-
-  // State for each collapsible section
-  const [isFullnameOpen, setFullNameOpen] = useState(false);
-  const [isEmailOpen, setEmailOpen] = useState(false);
-  const [isLecturerIdOpen, setLecturerIdOpen] = useState(false);
-  const [isUsernameOpen, setUsernameOpen] = useState(false);
+  const { lecturer, setLecturer } = useContext(LecturerContext);
   const [isGithubUsernameOpen, setGithubUsernameOpen] = useState(false);
-
-  // Toggle functions for each section
-  const toggleFullname = () => setFullNameOpen(!isFullnameOpen);
-  const toggleEmail = () => setEmailOpen(!isEmailOpen);
-  const toggleLecturerId = () => setLecturerIdOpen(!isLecturerIdOpen);
+  const [uploadData, setUploadData] = useState({profilePic: "", githubUserName: "", fileName: "",name:""});
+  const [spinner, setSpinner] = useState(false);
+  const [info, setInfo] = useState("");
+  const [loadSet, setLoading] = useState(false);
+  const formRef=useRef()
 
   const toggleGithubUsername = () => setGithubUsernameOpen(!isGithubUsernameOpen);
-  const toggleUsername= () => setUsernameOpen(!isUsernameOpen);
 
+  function calculateProfileCompleteness(profile) {
+    const totalFields = Object.keys(profile).length;
+    const filledFields = Object.values(profile).filter(value => value !== null && value !== "").length;
+    return (filledFields / totalFields) * 100;
+  }
+
+  console.log(lecturer)
+
+  const profileCompleteness = calculateProfileCompleteness(lecturer);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+   
+   
+ 
+    const isValid = formRef.current.checkValidity();
+  
+  if (isValid){
+    setLoading(true);
+    setSpinner(true);
+    const updateUrl = "/user/lecturer/update";
+  
+    setUploadData(prevState => ({
+      ...prevState,
+      name: lecturer.name 
+       }));
+    console.log(uploadData)
+    const response = await postToBackend(updateUrl, uploadData, getToken(token.lecturerTokenKey));
+    if (response.status !== 200) {
+      console.log("info")
+      setInfo(response.data.reason);
+    } else {
+      setInfo("Information updated");
+    }
+    setSpinner(false);
+    setLoading(false);
+  }
+  else{
+    
+    formRef.current.classList.add("was-validated")
+  
+  }
+
+  };
 
   return (
     <div className="container-fluid px-xl-4 pb-3 pb-lg-4 px-4">
@@ -36,41 +80,47 @@ function ProfileDetailPageLecturer() {
           <NavandSidebar />
 
           <div className='pt-5 mt-5'>
-            <div className="col-12">
+          {
+            info?
+            <div className="alert alert-success d-flex p-2 justify-content-between" role="alert">
+            <div className="d-flex">
+  <i className="fi-check-circle me-2 me-sm-3 lead"></i>
+  <div>Profile Updated Successfully </div>
+</div>
+  <button type="button" onClick={()=>{setInfo("")}} className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+            :""
+
+          }
+            <form  onSubmit={handleSubmit} ref={formRef}   noValidate  className="col-12 needs-validation">
               <h1 className="h2" ref={startRef}>Personal Info</h1>
-              <div className="mb-2 pt-1">Your personal info is 50% completed</div>
+              <div className="mb-2 pt-1">Your personal info is {profileCompleteness.toFixed(2)}% completed</div>
               <div className="progress mb-4" style={{ height: '.25rem' }}>
-                <div className="progress-bar bg-warning" role="progressbar" style={{ width: '50%' }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div className="progress-bar bg-warning" role="progressbar" style={{ width: `${profileCompleteness.toFixed(2)}%` }} 
+                      aria-valuenow={profileCompleteness.toFixed(2)} 
+                       aria-valuemin="0" aria-valuemax="100"></div>
               </div>
-              <div className="row pb-2">
-                
+              <div  className="row pb-2">
                 <div className="col-lg-6 col-sm-6 mb-4">
                   <div className="file-uploader bg-secondary mx-2" style={{ height: '160px' }}>
-                            <FilePond
-          files={files}
-          onupdatefiles={setFiles}
-          allowMultiple={false}
-          name="avatar_url"
-
-          labelIdle='<i class="d-inline-block fi-camera-plus fs-2 text-muted mb-2 " Style="margin-top:60px"></i><br><span class="fw-bold">Change picture</span>'
-            stylePanelLayout="compact"
-            styleButtonRemoveItemPosition="left"
-            styleButtonProcessItemPosition="right"
-            styleLoadIndicatorPosition="right"
-            styleProgressIndicatorPosition="right"
-            styleButtonRemoveItemAlign={false}
-            acceptedFileTypes={['image/png', 'image/jpeg','image/jpg']}
-            />
-            <a	
-              className="filepond--credits"
-            aria-hidden="true"
-            href="https://pqina.nl/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ transform: 'translateY(152px)' }}
-            >
-            Powered by PQINA
-            </a>
+                  
+                    <Avatar onChange={ async (val) => {
+                        if(val.size <= 1024 * 1024 * 3) {
+                        let result = await convertBase64(val)
+                        setLecturer({...lecturer,'profilePic':result})
+                        setUploadData({...uploadData, profilePic:result, fileName:val.name})
+                       
+                        }else
+                            alert('size too big, max size should be less than 3mb')
+                    }}
+                    emptyLabel="upload pic   max size 3mb"
+                    src={lecturer.profilePic} 
+                    variant="square" 
+                    style={{width:"100%", height:"100%",objectFit:"cover"}}
+                    accept="image/*"
+                    changeLabel="Change Profile Picture"
+                    />
+               
                   </div>
                 </div>
               </div>
@@ -81,15 +131,9 @@ function ProfileDetailPageLecturer() {
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="pe-2">
                       <label className="form-label fw-bold">Full name</label>
-                      <div id="name-value">Kelvin Ackah</div>
-                    </div>
-                    <div className="me-n3" onClick={toggleFullname} title="Edit">
-                      <a className="nav-link py-0" href="#name-collapse" data-bs-toggle="collapse"><i className="fi-edit"></i></a>
+                      <div id="name-value">{lecturer.name}</div>
                     </div>
                   </div>
-                  <Collapse isOpen={isFullnameOpen}>
-                    <input className="form-control mt-3" type="text" data-bs-binded-element="#name-value" data-bs-unset-value="Not specified" value="Ackah Kelvin" />
-                  </Collapse>
                 </div>
 
                 {/* Email */}
@@ -97,108 +141,84 @@ function ProfileDetailPageLecturer() {
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="pe-2">
                       <label className="form-label fw-bold">Email</label>
-                      <div id="email-value">kelvink@email.com</div>
-                    </div>
-                    <div className="me-n3" onClick={toggleEmail}>
-                      <a className="nav-link py-0" href="#email-collapse" data-bs-toggle="collapse"><i className="fi-edit"></i></a>
+                      <div id="email-value">{lecturer.email}</div>
                     </div>
                   </div>
-                  <Collapse isOpen={isEmailOpen}>
-                    <input className="form-control mt-3" type="email" data-bs-binded-element="#email-value" data-bs-unset-value="Not specified" value="kelvin@email.com" />
-                  </Collapse>
-                </div>
-
-                  {/* Username */}
-                  <div className="border-bottom pb-3 mb-3">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="pe-2">
-                      <label className="form-label fw-bold">Username</label>
-                      <div id="email-value">KK445</div>
-                    </div>
-                    <div className="me-n3" onClick={toggleUsername}>
-                      <a className="nav-link py-0" href="#email-collapse" data-bs-toggle="collapse"><i className="fi-edit"></i></a>
-                    </div>
-                  </div>
-                  <Collapse isOpen={isUsernameOpen}>
-                    <input className="form-control mt-3" type="email" data-bs-binded-element="#email-value" data-bs-unset-value="Not specified" value="kggg" />
-                  </Collapse>
                 </div>
 
                 {/* Student ID */}
                 <div className="border-bottom pb-3 mb-3">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="pe-2">
-                      <label className="form-label fw-bold">Lecture ID</label>
-                      <div id="phone-value">5550107</div>
-                    </div>
-                    <div className="me-n3" onClick={toggleLecturerId}>
-                      <a className="nav-link py-0" href="#phone-collapse" data-bs-toggle="collapse"><i className="fi-edit"></i></a>
+                      <label className="form-label fw-bold">Student ID</label>
+                      <div id="phone-value">{lecturer.lecturerId}</div>
                     </div>
                   </div>
-                  <Collapse isOpen={isLecturerIdOpen}>
-                    <input className="form-control mt-3" type="text" data-bs-binded-element="#phone-value" data-bs-unset-value="Not specified" value="5550107" />
-                  </Collapse>
                 </div>
 
+           
 
               
-             
+
                 {/* Github Username */}
                 <div className="pb-3 mb-3">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="pe-2">
                       <label className="form-label fw-bold">Github Username</label>
-                      <div id="github-value">kelvinAckah</div>
+                      <div id="github-value">{lecturer.githubUserName }</div>
                     </div>
                     <div className="me-n3" onClick={toggleGithubUsername}>
                       <a className="nav-link py-0" href="#github-collapse" data-bs-toggle="collapse"><i className="fi-edit"></i></a>
                     </div>
                   </div>
                   <Collapse isOpen={isGithubUsernameOpen}>
-                    <input className="form-control mt-3" type="text" data-bs-binded-element="#github-value" data-bs-unset-value="Not specified" value="kelvinAckah" />
+                    <input
+                      onChange={(val) => {
+                        setLecturer({ ...lecturer, githubUserName: val.target.value });
+                        setUploadData({ ...uploadData, githubUserName: val.target.value });
+                      }}
+                      className="form-control mt-3"
+                      type="text"
+                     
+                      data-bs-binded-element="#github-value"
+                      data-bs-unset-value="Not specified"
+                      value={lecturer.githubUserName}
+                    />
                   </Collapse>
                 </div>
 
-
                 <div className="d-flex align-items-center justify-content-between border-top mt-4 pt-4 pb-1">
-              <button ref={endRef} className="btn btn-primary px-3 px-sm-4" type="button">Save changes</button>
-            </div>
+                {
+                  spinner?
+                  <button ref={endRef} className="btn btn-primary px-3 px-sm-4" type="button">
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Saving...</button>
+
+                  :
+                  <button ref={endRef} className="btn btn-primary px-3 px-sm-4" type="submit">Save changes</button>
+
+
+                }
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
 
-
-        
-<div className="col-xl-3 d-none d-xl-block ps-4 ps-xxl-5">
-<aside className="sticky-top pt-5">
-  <div className="pt-5 mt-5">
-    <div className="ps-4 border-start">
-      <h3 className="h6">Jump to</h3>
-
-      <a className="nav-link py-1 px-0 fs-sm fw-normal " onClick={()=>{
-        startRef?.current.scrollIntoView({
-          behavior:'smooth'
-        })
-
-
-      }} style={{cursor:"pointer"}} >start </a>
-      <a className="nav-link py-1 px-0 fs-sm fw-normal" onClick={()=>{
-        endRef?.current.scrollIntoView({
-          behavior:'smooth'
-        })
-      }} style={{cursor:"pointer"}}>end </a>
-
-    </div>
-  </div>
-</aside>
-</div>
+        <div className="col-xl-3 d-none d-xl-block ps-4 ps-xxl-5">
+          <aside className="sticky-top pt-5">
+            <div className="pt-5 mt-5">
+              <div className="ps-4 border-start">
+                <h3 className="h6">Jump to</h3>
+                <a className="nav-link py-1 px-0 fs-sm fw-normal" onClick={() => startRef.current.scrollIntoView({ behavior: 'smooth' })} style={{ cursor: "pointer" }}>Start</a>
+                <a className="nav-link py-1 px-0 fs-sm fw-normal" onClick={() => endRef.current.scrollIntoView({ behavior: 'smooth' })} style={{ cursor: "pointer" }}>End</a>
+              </div>
+            </div>
+          </aside>
+        </div>
       </section>
     </div>
   );
 }
 
-export default ProfileDetailPageLecturer;
-
-
-
+export default ProfileDetailPage;

@@ -34,6 +34,7 @@ const NewPassword=()=> {
   const location = useLocation()
     const loginUrl=location.state.loginUrl
     const verificationId = location.state.verificationId 
+    console.log(verificationId)
   
 
 const handleSubmit = async (e) => {

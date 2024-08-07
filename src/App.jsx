@@ -33,6 +33,8 @@ import AssignmentReport from './pages/report/assignmentreport/report'
 import StudentReport from './pages/report/studentreport/report'
 import StudentReportDetail from './pages/report/studentreport/studentReportDetails'
 import ViewAssignmentsStudents from './pages/assignments/students/viewassignmentsstudents'
+import StudentOutlet from './components/basic/studentLayout'
+import LecturerOutlet from './components/basic/lecturerLayout'
 
 function App() {
   return (
@@ -49,18 +51,18 @@ function App() {
       <Route path="/user/new-password" element={<NewPassword />} />
 
 
-      <Route path='/student/dashboard' element = { <StudentDashboard />} />
-      <Route path='/student/view/assignments' element = { <ViewAssignmentsStudents/>} />
+      <Route path='/student/dashboard' element = {<StudentOutlet><StudentDashboard /></StudentOutlet> } />
+      <Route path='/student/view/assignments' element = {<StudentOutlet><ViewAssignmentsStudents/></StudentOutlet> } />
 
-      <Route path='/lecturer/dashboard' element = { <LecturerDashboard />} />
-      <Route path='/lecturer/create/assignment' element = { <CreateAssignment/>} />
-      <Route path='/lecturer/edit/assignment/:id' element = { <EditAssignment/>} />
-      <Route path='/lecturer/:id/submission' element = { <ViewStudentSubmmissionPage/>} />
-      <Route path='/lecturer/report' element = { <Index/>} />
-      <Route path='/lecturer/report/class' element = { <ClassReport/>} />
-      <Route path='/lecturer/:id/report' element = { <AssignmentReport/>} />
-      <Route path='/lecturer/student/report' element = { <StudentReport/>} />
-      <Route path='/lecturer/student-detail/:id/report' element = { <StudentReportDetail/>} />
+      <Route path='/lecturer/dashboard' element =  { <LecturerOutlet><LecturerDashboard /></LecturerOutlet> } />
+      <Route path='/lecturer/create/assignment' element = {<LecturerOutlet><CreateAssignment/></LecturerOutlet> } />
+      <Route path='/lecturer/edit/assignment/:id' element = {<LecturerOutlet><EditAssignment/></LecturerOutlet> } />
+      <Route path='/lecturer/:id/submission' element = { <LecturerOutlet><ViewStudentSubmmissionPage/></LecturerOutlet>} />
+      <Route path='/lecturer/report' element = {<LecturerOutlet><Index/></LecturerOutlet> } />
+      <Route path='/lecturer/report/class' element = {<LecturerOutlet><ClassReport/></LecturerOutlet> } />
+      <Route path='/lecturer/:id/report' element = {<LecturerOutlet><AssignmentReport/></LecturerOutlet> } />
+      <Route path='/lecturer/student/report' element = { <LecturerOutlet><StudentReport/></LecturerOutlet>} />
+      <Route path='/lecturer/student-detail/:id/report' element = { <LecturerOutlet><StudentReportDetail/></LecturerOutlet>} />
 
 
 
@@ -76,12 +78,12 @@ function App() {
 
 
 
-      <Route path='/student/profile' element = {<ProfileDetailPage />} />
-      <Route path='/student/change-password' element = {<ChangePassword />} />
+      <Route path='/student/profile' element = {<StudentOutlet><ProfileDetailPage /></StudentOutlet>} />
+      <Route path='/student/change-password' element = {<StudentOutlet><ChangePassword /></StudentOutlet>} />
 
       
-      <Route path='/lecturer/profile' element = {<ProfileDetailPageLecturer />} />
-      <Route path='/lecturer/change-password' element = {<ChangePasswordLecturer />} />
+      <Route path='/lecturer/profile' element = { <LecturerOutlet><ProfileDetailPageLecturer /></LecturerOutlet>} />
+      <Route path='/lecturer/change-password' element = {<LecturerOutlet><ChangePasswordLecturer /></LecturerOutlet>} />
 
     
 

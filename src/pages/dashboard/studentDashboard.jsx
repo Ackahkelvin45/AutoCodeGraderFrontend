@@ -1,19 +1,10 @@
-import {useEffect,useContext,useState}from 'react'
 import { NavandSidebar } from '../../components/dashboard/student/navBarAndSideBar'
-import { StudentContext } from "../../context/studentContext"
-import { useNavigate } from 'react-router-dom'
 import { Calendar } from 'react-date-range'
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css';
 
 function StudentDashboard() {
-    const redirect = useNavigate()
-    const [loading, setLoading] = useState(true)
-    const {loadDetails, authenticated, setAuthenticated, student, setStudent} = useContext(StudentContext)
-    
-    useEffect(()=> {
-        loadDetails(setStudent, student,setLoading, setAuthenticated, redirect )
-    }, [authenticated])
+   
   return (
 <div className="container-fluid px-xl-4 pb-3 pb-lg-4 px-4">
     <section  className=" offcanvas-enabled-start row full-section " style={{transition:'all .6s, transform .6s'}} >

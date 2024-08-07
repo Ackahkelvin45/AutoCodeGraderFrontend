@@ -73,13 +73,13 @@ function AssignmentCard({assignment}) {
                                 <li>
                                     <Link to={`/lecturer/${assignment.id}/submission`} type="button" className="dropdown-item">
                                         <i className="fi-eye-on opacity-60 me-2"></i>
-                                        View report
+                                        View submissions
                                     </Link>
                                 </li>
                                 <li>
                                 <Link to={`/lecturer/${assignment.id}/report`} type="button" className="dropdown-item">
                                         <i className="fi-list opacity-60 me-2"></i>
-                                        View submissions
+                                        View report
                                     </Link>
                                 </li>
 

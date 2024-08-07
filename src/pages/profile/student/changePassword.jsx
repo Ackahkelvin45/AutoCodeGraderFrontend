@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { NavandSidebar } from '../../../components/dashboard/student/navBarAndSideBar';
+import { useNavigate } from 'react-router-dom';
 
 function ChangePassword() {
   const [seeCurrentPassword, setSeeCurrentPassword] = useState(false);
   const [seeNewPassword, setSeeNewPassword] = useState(false);
   const [seeConfirmPassword, setSeeConfirmPassword] = useState(false);
+  const redirect=useNavigate()
 
   return (
     <div className="container-fluid px-xl-4 pb-3 pb-lg-4 px-4">
@@ -41,7 +43,12 @@ function ChangePassword() {
                     </div>
                   </div>
                   <div className="col-sm-6 mb-2">
-                    <a className="d-inline-block mb-2 mx-2 text-primary text-underline" style={{ textDecoration: 'underline' }} href="#">Forgot password?</a>
+                    <a 
+                     onClick={(e) => {
+            e.preventDefault()
+            redirect("/user/request/password-reset", {state: {type:"STUDENT", url: "/auth/login/student"}})
+          }}
+          className="d-inline-block mb-2 mx-2 text-primary text-underline" style={{ textDecoration: 'underline' }} href="#">Forgot password?</a>
                   </div>
                 </div>
                 <div className="row mb-2">

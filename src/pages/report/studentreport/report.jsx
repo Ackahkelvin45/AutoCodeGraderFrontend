@@ -101,9 +101,7 @@ const filteredItems = students.filter(item => {
     const lowercasedFilter = filterText.toLowerCase();
     return (
         item.name.toLowerCase().includes(lowercasedFilter) ||
-        item.age.toLowerCase().includes(lowercasedFilter) ||
-        item.major.toLowerCase().includes(lowercasedFilter) ||
-        item.GPA.toLowerCase().includes(lowercasedFilter)
+        item.major.toLowerCase().includes(lowercasedFilter) 
       
     );
 });
